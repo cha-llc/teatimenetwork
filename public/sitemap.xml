@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://teatimenetwork.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://teatimenetwork.com/og-image.jpg</image:loc>
+      <image:title>Tea Time Network - Build Better Habits</image:title>
+    </image:image>
+  </url>
+
+  <!-- Categories -->
+  <url>
+    <loc>https://teatimenetwork.com/categories</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/categories"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/categories?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Analytics -->
+  <url>
+    <loc>https://teatimenetwork.com/analytics</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/analytics"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/analytics?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Templates -->
+  <url>
+    <loc>https://teatimenetwork.com/templates</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/templates"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/templates?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Achievements -->
+  <url>
+    <loc>https://teatimenetwork.com/achievements</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/achievements"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/achievements?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Insights -->
+  <url>
+    <loc>https://teatimenetwork.com/insights</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/insights"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/insights?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Challenges -->
+  <url>
+    <loc>https://teatimenetwork.com/challenges</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/challenges"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/challenges?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Smart Ecosystem / IoT -->
+  <url>
+    <loc>https://teatimenetwork.com/smart-ecosystem</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/smart-ecosystem"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/smart-ecosystem?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Incubator -->
+  <url>
+    <loc>https://teatimenetwork.com/incubator</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/incubator"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/incubator?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Neuro Feedback -->
+  <url>
+    <loc>https://teatimenetwork.com/neuro-feedback</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/neuro-feedback"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/neuro-feedback?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Neuro History -->
+  <url>
+    <loc>https://teatimenetwork.com/neuro-history</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/neuro-history"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/neuro-history?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Teams -->
+  <url>
+    <loc>https://teatimenetwork.com/teams</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/teams"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/teams?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Momentum Realm -->
+  <url>
+    <loc>https://teatimenetwork.com/momentum-realm</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/momentum-realm"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/momentum-realm?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Accountability -->
+  <url>
+    <loc>https://teatimenetwork.com/accountability</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/accountability"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/accountability?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Community -->
+  <url>
+    <loc>https://teatimenetwork.com/community</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://teatimenetwork.com/community"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://teatimenetwork.com/community?lang=es"/>
+    <lastmod>2025-12-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- User Profiles (dynamic) -->
+  <!-- Note: User profiles are dynamically generated at /user/:username -->
+  <!-- Search engines will discover these through internal links -->
+
+</urlset>
