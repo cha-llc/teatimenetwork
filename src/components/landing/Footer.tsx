@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Twitter, Github, Linkedin, Mail, Heart, Send, CheckCircle, Shield, Lock, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer: React.FC = () => {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -25,20 +27,19 @@ const Footer: React.FC = () => {
     }
   };
 
-  // Simplified link structure
   const links = {
     product: [
-      { label: 'Features', href: '#features', isAnchor: true },
-      { label: 'Pricing', href: '#pricing', isAnchor: true },
-      { label: 'How It Works', href: '#how-it-works', isAnchor: true }
+      { label: t.footer.features, href: '#features', isAnchor: true },
+      { label: t.footer.pricing, href: '#pricing', isAnchor: true },
+      { label: t.footer.howItWorks, href: '#how-it-works', isAnchor: true }
     ],
     support: [
-      { label: 'Help Center', href: 'mailto:support@teatimenetwork.app', isAnchor: false },
-      { label: 'Contact Us', href: 'mailto:support@teatimenetwork.app', isAnchor: false }
+      { label: t.footer.helpCenter, href: 'mailto:support@teatimenetwork.app', isAnchor: false },
+      { label: t.footer.contactUs, href: 'mailto:support@teatimenetwork.app', isAnchor: false }
     ],
     legal: [
-      { label: 'Privacy Policy', href: '/privacy', isAnchor: false },
-      { label: 'Terms of Service', href: '/terms', isAnchor: false }
+      { label: t.footer.privacyPolicy, href: '/privacy', isAnchor: false },
+      { label: t.footer.termsOfService, href: '/terms', isAnchor: false }
     ]
   };
 
@@ -88,7 +89,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           {/* Brand */}
@@ -100,7 +101,7 @@ const Footer: React.FC = () => {
               <span className="text-lg font-bold text-white">Tea Time Network</span>
             </div>
             <p className="text-gray-400 text-sm mb-4 max-w-xs">
-              Build better habits in just 2 minutes a day. Simple tracking, smart reminders, AI coaching.
+              {t.footer.tagline}
             </p>
 
             {/* Social Links */}
@@ -125,7 +126,7 @@ const Footer: React.FC = () => {
 
           {/* Product Links */}
           <nav aria-label="Product links">
-            <h4 className="text-white font-semibold mb-3 text-sm">Product</h4>
+            <h4 className="text-white font-semibold mb-3 text-sm">{t.footer.product}</h4>
             <ul className="space-y-2">
               {links.product.map((link, i) => (
                 <li key={i}>{renderLink(link)}</li>
@@ -135,7 +136,7 @@ const Footer: React.FC = () => {
 
           {/* Support Links */}
           <nav aria-label="Support links">
-            <h4 className="text-white font-semibold mb-3 text-sm">Support</h4>
+            <h4 className="text-white font-semibold mb-3 text-sm">{t.footer.support}</h4>
             <ul className="space-y-2">
               {links.support.map((link, i) => (
                 <li key={i}>{renderLink(link)}</li>
@@ -145,7 +146,7 @@ const Footer: React.FC = () => {
 
           {/* Legal Links */}
           <nav aria-label="Legal links">
-            <h4 className="text-white font-semibold mb-3 text-sm">Legal</h4>
+            <h4 className="text-white font-semibold mb-3 text-sm">{t.footer.legal}</h4>
             <ul className="space-y-2">
               {links.legal.map((link, i) => (
                 <li key={i}>{renderLink(link)}</li>
@@ -158,14 +159,14 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 pt-8 mb-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-              <h4 className="text-white font-semibold mb-1 text-sm">Get Habit Tips Weekly</h4>
-              <p className="text-gray-400 text-xs">No spam. Unsubscribe anytime.</p>
+              <h4 className="text-white font-semibold mb-1 text-sm">{t.footer.getHabitTips}</h4>
+              <p className="text-gray-400 text-xs">{t.footer.noSpam}</p>
             </div>
             <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:w-auto">
               {subscribed ? (
                 <div className="flex items-center gap-2 text-green-400 px-4 py-2 text-sm">
                   <CheckCircle className="w-4 h-4" />
-                  <span>Subscribed!</span>
+                  <span>{t.footer.subscribed}</span>
                 </div>
               ) : (
                 <>
@@ -173,7 +174,7 @@ const Footer: React.FC = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    placeholder={t.footer.enterEmail}
                     required
                     aria-label="Email address for newsletter"
                     className="flex-1 md:w-56 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#7C9885] text-sm"
@@ -184,7 +185,7 @@ const Footer: React.FC = () => {
                     className="px-4 py-2 bg-[#7C9885] text-white rounded-lg font-medium hover:bg-[#6a8673] transition-colors flex items-center gap-2 text-sm"
                   >
                     <Send className="w-4 h-4" />
-                    Subscribe
+                    {t.footer.subscribe}
                   </button>
                 </>
               )}
@@ -197,15 +198,15 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-6 text-gray-500 text-xs">
             <div className="flex items-center gap-1.5">
               <Lock className="w-4 h-4 text-green-500" />
-              <span>256-bit SSL</span>
+              <span>{t.footer.ssl}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-blue-500" />
-              <span>GDPR Compliant</span>
+              <span>{t.footer.gdpr}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Award className="w-4 h-4 text-amber-500" />
-              <span>No Data Selling</span>
+              <span>{t.footer.noDataSelling}</span>
             </div>
           </div>
         </div>
@@ -213,10 +214,10 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-xs">
-            © {currentYear} Tea Time Network. All rights reserved.
+            © {currentYear} Tea Time Network. {t.footer.allRightsReserved}
           </p>
           <p className="text-gray-500 text-xs flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500" aria-hidden="true" /> for habit builders
+            {t.footer.madeWith} <Heart className="w-3 h-3 text-red-500 fill-red-500" aria-hidden="true" /> {t.footer.forHabitBuilders}
           </p>
         </div>
       </div>

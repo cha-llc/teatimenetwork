@@ -135,19 +135,6 @@ const HabitCard: React.FC<HabitCardProps> = ({
           style={{ backgroundColor: categoryColor }}
         />
 
-        {/* Reminder indicator */}
-        {reminder?.enabled && (
-          <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
-            <div 
-              className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-purple-100 dark:bg-purple-900/50 rounded-lg text-[10px] sm:text-xs text-purple-600 dark:text-purple-400"
-              title={`${language === 'es' ? 'Recordatorio a las' : 'Reminder at'} ${formatTime(reminder.reminderTime)}`}
-            >
-              <Bell className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-              <span className="hidden sm:inline">{formatTime(reminder.reminderTime)}</span>
-            </div>
-          </div>
-        )}
-
         {/* Menu button */}
         <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
           <button
@@ -210,7 +197,7 @@ const HabitCard: React.FC<HabitCardProps> = ({
           )}
         </div>
 
-        <div className="flex items-start gap-3 sm:gap-4">
+        <div className="flex items-start gap-3 sm:gap-4 pr-10 sm:pr-12">
           {/* Completion button */}
           <button
             type="button"
@@ -241,6 +228,15 @@ const HabitCard: React.FC<HabitCardProps> = ({
                 <CategoryIcon icon={categoryIcon} size={12} className="hidden sm:block" />
                 <span className="capitalize hidden sm:inline">{habit.category}</span>
               </div>
+              {reminder?.enabled && (
+                <div
+                  className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-purple-100 dark:bg-purple-900/50 rounded-lg text-[10px] sm:text-xs text-purple-600 dark:text-purple-400 flex-shrink-0"
+                  title={`${language === 'es' ? 'Recordatorio a las' : 'Reminder at'} ${formatTime(reminder.reminderTime)}`}
+                >
+                  <Bell className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                  <span>{formatTime(reminder.reminderTime)}</span>
+                </div>
+              )}
             </div>
             {habit.description && (
               <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1.5 sm:mb-2 truncate">{habit.description}</p>

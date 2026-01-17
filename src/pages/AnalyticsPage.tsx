@@ -68,9 +68,18 @@ const AnalyticsPage: React.FC = () => {
   // Fetch extended data when time range changes
   useEffect(() => {
     if (user && parseInt(timeRange) > 30) {
-      const endDate = new Date().toISOString().split('T')[0];
-      const startDate = new Date(Date.now() - parseInt(timeRange) * 86400000).toISOString().split('T')[0];
-      fetchExtendedCompletions(startDate, endDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to start of day to avoid timezone issues
+      const endDate = today.toISOString().split('T')[0];
+      
+      const startDateObj = new Date(today);
+      startDateObj.setDate(startDateObj.getDate() - parseInt(timeRange));
+      const startDate = startDateObj.toISOString().split('T')[0];
+      
+      // Ensure dates are valid and endDate is not in the future
+      if (startDate <= endDate && endDate <= new Date().toISOString().split('T')[0]) {
+        fetchExtendedCompletions(startDate, endDate);
+      }
     }
   }, [timeRange, user, fetchExtendedCompletions]);
 

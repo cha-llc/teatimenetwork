@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { HabitCompletion, Habit } from '@/hooks/useHabits';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CalendarHeatmapProps {
   habits: Habit[];
@@ -49,25 +50,30 @@ const CalendarHeatmap: React.FC<CalendarHeatmapProps> = ({ habits, completions }
         {language === 'es' ? 'Actividad 30 Días' : '30-Day Activity'}
       </h3>
       
-      <div className="flex gap-0.5 sm:gap-1 justify-center sm:justify-start overflow-x-auto">
-        {weeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-0.5 sm:gap-1">
-            {week.map((day) => (
-              <div
-                key={day.date}
-                className={`w-4 h-4 sm:w-6 sm:h-6 rounded sm:rounded-md ${getColor(day.rate)} transition-all hover:scale-110 cursor-pointer group relative`}
-                title={`${day.date}: ${day.count}/${habits.length} ${language === 'es' ? 'completados' : 'completed'}`}
-              >
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10">
-                  <div className="bg-gray-800 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+      <TooltipProvider delayDuration={0}>
+        <div className="flex gap-0.5 sm:gap-1 justify-center sm:justify-start overflow-x-auto">
+          {weeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="flex flex-col gap-0.5 sm:gap-1">
+              {week.map((day) => (
+                <Tooltip key={day.date}>
+                  <TooltipTrigger asChild>
+                    <div
+                      className={`w-4 h-4 sm:w-6 sm:h-6 rounded sm:rounded-md ${getColor(day.rate)} transition-all hover:scale-110 cursor-pointer`}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="top"
+                    sideOffset={6}
+                    className="bg-gray-800 dark:bg-gray-700 text-white text-xs border-0 shadow-lg"
+                  >
                     {new Date(day.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', { month: 'short', day: 'numeric' })}: {day.count}/{habits.length}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </div>
+          ))}
+        </div>
+      </TooltipProvider>
       
       {/* Legend */}
       <div className="flex items-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">

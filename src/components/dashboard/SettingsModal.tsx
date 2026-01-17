@@ -52,7 +52,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const [timezone, setTimezone] = useState('UTC');
   const [loading, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [activeTab, setActiveTab] = useState<'general' | 'notifications' | 'appearance' | 'data' | 'billing'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'notifications' | 'appearance' | 'tour' | 'data' | 'billing'>('general');
   const [showBackupModal, setShowBackupModal] = useState(false);
 
   useEffect(() => {
@@ -100,8 +100,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     { id: 'general', label: t.settings.general, icon: Globe },
     { id: 'notifications', label: t.settings.notifications, icon: Bell },
     { id: 'appearance', label: t.settings.appearance, icon: Sun },
-    { id: 'tour', label: language === 'es' ? 'Tour' : 'Tour', icon: Share2 },
-    { id: 'data', label: language === 'es' ? 'Datos' : 'Data', icon: HardDrive },
+    { id: 'tour', label: t.settings.tour, icon: Share2 },
+    { id: 'data', label: t.settings.data, icon: HardDrive },
     { id: 'billing', label: t.settings.billing, icon: CreditCard },
   ] as const;
 
@@ -109,9 +109,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-        <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-hidden">
+        <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-hidden flex flex-col">
           {/* Header */}
-          <div className="border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
+          <div className="border-b border-gray-100 dark:border-gray-800 px-6 py-4 flex items-center justify-between flex-shrink-0">
             <h2 className="text-xl font-bold text-gray-800 dark:text-white">{t.settings.title}</h2>
             <button
               onClick={onClose}
@@ -122,13 +122,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-gray-100 dark:border-gray-800 px-6 overflow-x-auto">
+          <div className="flex border-b border-gray-100 dark:border-gray-800 px-6 overflow-x-auto flex-shrink-0 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent dark:[&::-webkit-scrollbar-thumb]:bg-gray-600">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => setActiveTab(tab.id as typeof activeTab)}
                   className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'border-[#7C9885] text-[#7C9885] dark:text-[#9AB4A3]'
@@ -142,7 +142,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             })}
           </div>
 
-          <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
+          <div className="p-6 space-y-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent dark:[&::-webkit-scrollbar-thumb]:bg-gray-600">
             {/* General Tab */}
             {activeTab === 'general' && (
               <>

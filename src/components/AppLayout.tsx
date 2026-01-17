@@ -142,6 +142,7 @@ const AppContent: React.FC = () => {
     return (
       <>
         <Dashboard />
+        <Footer />
         {/* Guided Tour for logged in users */}
         <GuidedTour 
           forceShow={showTour} 

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useHabits, Habit } from '@/hooks/useHabits';
+import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useAICoach } from '@/hooks/useAICoach';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -23,12 +24,24 @@ import TrialBanner from './TrialBanner';
 import TrialExpiredModal from './TrialExpiredModal';
 import ProfileSettingsModal from '@/components/profile/ProfileSettingsModal';
 import SocialShareModal from '@/components/social/SocialShareModal';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const Dashboard: React.FC = () => {
   const { user, profile, trialStatus } = useAuth();
   const { habits, completions, streaks, loading, isDemo, createHabit, updateHabit, deleteHabit, toggleCompletion, isCompletedToday, getCompletionRate } = useHabits();
   const { isPremium, motivation, getDailyMotivation, motivationLoading } = useAICoach();
   const { t, language } = useLanguage();
+  const { toast } = useToast();
   const [showAddModal, setShowAddModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -39,6 +52,8 @@ const Dashboard: React.FC = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareHabit, setShareHabit] = useState<Habit | null>(null);
   const [activeTab, setActiveTab] = useState<'habits' | 'calendar' | 'rewards'>('habits');
+  const [deletingHabit, setDeletingHabit] = useState<Habit | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
 
   const today = new Date().toISOString().split('T')[0];
@@ -91,20 +106,31 @@ const Dashboard: React.FC = () => {
     setShowAddModal(true);
   };
 
-  const handleDeleteHabit = async (habitId: string) => {
-    if (trialStatus.isTrialExpired && !profile?.is_premium && !isDemo) {
-      setShowTrialExpired(true);
-      return;
-    }
-    if (confirm(language === 'es' ? '¿Estás seguro de que quieres eliminar este hábito?' : 'Are you sure you want to delete this habit?')) {
-      await deleteHabit(habitId);
+  const handleDeleteHabit = async () => {
+    if (!deletingHabit) return;
+    setIsDeleting(true);
+    try {
+      await deleteHabit(deletingHabit.id);
+      const name = deletingHabit.name;
+      setDeletingHabit(null);
+      toast({
+        title: language === 'es' ? 'Hábito eliminado' : 'Habit deleted',
+        description: `"${name}" has been removed.`,
+      });
+    } catch {
+      toast({
+        title: language === 'es' ? 'Error' : 'Error',
+        description: language === 'es' ? 'No se pudo eliminar el hábito.' : 'Failed to delete habit.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   const handleToggleCompletion = async (habitId: string, date?: string) => {
     // In demo mode, always allow toggling
     if (isDemo) {
-      console.log('Demo mode: toggling habit', habitId);
       await toggleCompletion(habitId, date || today);
       return;
     }
@@ -113,14 +139,11 @@ const Dashboard: React.FC = () => {
       setShowTrialExpired(true);
       return;
     }
-    console.log('Toggling habit completion:', habitId, date || today);
     await toggleCompletion(habitId, date || today);
   };
 
   const handleCompleteAllToday = async () => {
-    console.log('Complete All clicked');
     const incompleteHabits = habits.filter(habit => !isCompletedToday(habit.id));
-    console.log('Incomplete habits:', incompleteHabits.length);
     
     for (const habit of incompleteHabits) {
       await handleToggleCompletion(habit.id);
@@ -281,7 +304,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Main content grid */}
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8" style={{ display: 'block' }}>
           {/* Main content area */}
           <div className="lg:col-span-2">
             {/* Today's Habits Tab */}
@@ -392,7 +415,13 @@ const Dashboard: React.FC = () => {
                         isCompleted={isCompletedToday(habit.id)}
                         onToggle={() => handleToggleCompletion(habit.id)}
                         onEdit={() => handleEditHabit(habit)}
-                        onDelete={() => handleDeleteHabit(habit.id)}
+                        onDelete={() => {
+                          if (trialStatus.isTrialExpired && !profile?.is_premium && !isDemo) {
+                            setShowTrialExpired(true);
+                            return;
+                          }
+                          setDeletingHabit(habit);
+                        }}
                         disabled={isViewOnly}
                       />
                     ))}
@@ -461,7 +490,7 @@ const Dashboard: React.FC = () => {
             )}
 
             {/* Accountability Partners Card */}
-            <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl p-4 sm:p-6 text-white">
+            <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl mt-5 p-4 sm:p-6 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -695,6 +724,38 @@ const Dashboard: React.FC = () => {
         isOpen={showProfile}
         onClose={() => setShowProfile(false)}
       />
+
+      {/* Delete Habit Confirmation - uses AlertDialog instead of native confirm() */}
+      <AlertDialog open={!!deletingHabit} onOpenChange={(open) => { if (!open && !isDeleting) setDeletingHabit(null); }}>
+        <AlertDialogContent className="duration-300">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{language === 'es' ? 'Eliminar hábito' : 'Delete Habit'}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {language === 'es'
+                ? `¿Estás seguro de que quieres eliminar "${deletingHabit?.name}"? Esta acción no se puede deshacer. Se perderán todos los progresos y datos de racha.`
+                : `Are you sure you want to delete "${deletingHabit?.name}"? This action cannot be undone. All your progress and streak data for this habit will be lost.`}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-shrink-0 border-t border-border pt-4 mt-4">
+            <AlertDialogCancel disabled={isDeleting}>{language === 'es' ? 'Cancelar' : 'Cancel'}</AlertDialogCancel>
+            <button
+              type="button"
+              onClick={handleDeleteHabit}
+              disabled={isDeleting}
+              className={cn(buttonVariants(), 'bg-red-600 hover:bg-red-700 focus:ring-red-600')}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {language === 'es' ? 'Eliminando...' : 'Deleting...'}
+                </>
+              ) : (
+                language === 'es' ? 'Eliminar' : 'Delete'
+              )}
+            </button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

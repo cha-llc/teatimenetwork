@@ -17,6 +17,7 @@ import { AvatarCreator, AvatarData } from '@/components/realm/AvatarCreator';
 import { QuestCard } from '@/components/realm/QuestCard';
 import { MonsterBattleCard } from '@/components/realm/MonsterBattle';
 import { RitualRoulette } from '@/components/realm/RitualRoulette';
+import Footer from '@/components/landing/Footer';
 import { toast } from 'sonner';
 
 const HERO_IMAGE = 'https://d64gsuwffb70l.cloudfront.net/694b4398bd8d5c5b93f8f6c4_1766849317342_b4c56826.png';
@@ -142,6 +143,7 @@ export default function MomentumRealmPage() {
   }
 
   return (
+    <>
     <PageWrapper>
       <div className="space-y-6">
         {/* Demo Mode Banner */}
@@ -159,7 +161,7 @@ export default function MomentumRealmPage() {
           <img 
             src={HERO_IMAGE} 
             alt="Momentum Realm" 
-            className="w-full h-64 object-cover"
+            className="w-full h-64"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 via-purple-900/70 to-transparent" />
           <div className="absolute inset-0 p-6 flex items-center">
@@ -260,32 +262,53 @@ export default function MomentumRealmPage() {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-slate-800 border border-slate-700 p-1 flex-wrap h-auto">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-purple-500">
+          <TabsList className="bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-1 flex-wrap h-auto text-gray-600 dark:text-gray-400">
+            <TabsTrigger 
+              value="overview" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <Map className="w-4 h-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="story" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="story" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <BookOpen className="w-4 h-4 mr-2" />
               Story
             </TabsTrigger>
-            <TabsTrigger value="quests" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="quests" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <Scroll className="w-4 h-4 mr-2" />
               Quests
             </TabsTrigger>
-            <TabsTrigger value="battles" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="battles" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <Sword className="w-4 h-4 mr-2" />
               Battles
             </TabsTrigger>
-            <TabsTrigger value="allies" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="allies" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <Heart className="w-4 h-4 mr-2" />
               Allies
             </TabsTrigger>
-            <TabsTrigger value="garden" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="garden" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <TreePine className="w-4 h-4 mr-2" />
               AR Garden
             </TabsTrigger>
-            <TabsTrigger value="shop" className="data-[state=active]:bg-purple-500">
+            <TabsTrigger 
+              value="shop" 
+              className="data-[state=active]:bg-purple-500 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-200 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-gray-200"
+            >
               <ShoppingBag className="w-4 h-4 mr-2" />
               Shop
             </TabsTrigger>
@@ -330,18 +353,18 @@ export default function MomentumRealmPage() {
                 )}
 
                 {/* Active Quests */}
-                <Card className="bg-slate-800/50 border-slate-700">
+                <Card className="bg-white dark:bg-slate-800/50 border-gray-200 dark:border-slate-700">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg text-white flex items-center gap-2">
-                        <Scroll className="w-5 h-5 text-blue-400" />
+                      <CardTitle className="text-lg text-gray-800 dark:text-white flex items-center gap-2">
+                        <Scroll className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                         Active Quests
                       </CardTitle>
                       <Button 
                         variant="ghost" 
                         size="sm"
                         onClick={() => setActiveTab('quests')}
-                        className="text-purple-400"
+                        className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300"
                       >
                         View All
                         <ChevronRight className="w-4 h-4 ml-1" />
@@ -361,12 +384,12 @@ export default function MomentumRealmPage() {
                         />
                       ))}
                       {userQuests.filter(uq => uq.status === 'active').length === 0 && (
-                        <div className="text-center py-8 text-slate-400">
-                          <Scroll className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                        <div className="text-center py-8 text-gray-500 dark:text-slate-400">
+                          <Scroll className="w-12 h-12 mx-auto mb-2 opacity-50 text-gray-400 dark:text-slate-500" />
                           <p className="mb-4">No active quests. Start one to begin your adventure!</p>
                           <Button 
                             onClick={() => setActiveTab('quests')}
-                            className="bg-purple-500 hover:bg-purple-600"
+                            className="bg-purple-500 hover:bg-purple-600 dark:bg-purple-500 dark:hover:bg-purple-600 text-white"
                           >
                             <Play className="w-4 h-4 mr-2" />
                             Browse Quests
@@ -378,18 +401,18 @@ export default function MomentumRealmPage() {
                 </Card>
 
                 {/* Active Battles */}
-                <Card className="bg-slate-800/50 border-slate-700">
+                <Card className="bg-white dark:bg-slate-800/50 border-gray-200 dark:border-slate-700">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg text-white flex items-center gap-2">
-                        <Sword className="w-5 h-5 text-red-400" />
+                      <CardTitle className="text-lg text-gray-800 dark:text-white flex items-center gap-2">
+                        <Sword className="w-5 h-5 text-red-500 dark:text-red-400" />
                         Monster Battles
                       </CardTitle>
                       <Button 
                         variant="ghost" 
                         size="sm"
                         onClick={() => setActiveTab('battles')}
-                        className="text-purple-400"
+                        className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300"
                       >
                         View All
                         <ChevronRight className="w-4 h-4 ml-1" />
@@ -399,24 +422,30 @@ export default function MomentumRealmPage() {
                   <CardContent>
                     {activeBattles.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {activeBattles.slice(0, 2).map(battle => (
-                          <MonsterBattleCard
-                            key={battle.id}
-                            battle={battle}
-                            monster={battle.monster!}
-                            monsterImage={getMonsterImage(battle.monster?.name || '')}
-                            onAttack={handleAttack}
-                            habitsCompletedToday={habitsCompletedToday}
-                          />
-                        ))}
+                        {activeBattles.slice(0, 2)
+                          .map(battle => {
+                            const monster = battle.monster || monsters.find(m => m.id === battle.monster_id);
+                            if (!monster) return null;
+                            return (
+                              <MonsterBattleCard
+                                key={battle.id}
+                                battle={battle}
+                                monster={monster}
+                                monsterImage={getMonsterImage(monster.name)}
+                                onAttack={handleAttack}
+                                habitsCompletedToday={habitsCompletedToday}
+                              />
+                            );
+                          })
+                          .filter(Boolean)}
                       </div>
                     ) : (
-                      <div className="text-center py-8 text-slate-400">
-                        <Sword className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <div className="text-center py-8 text-gray-500 dark:text-slate-400">
+                        <Sword className="w-12 h-12 mx-auto mb-2 opacity-50 text-gray-400 dark:text-slate-500" />
                         <p className="mb-4">No active battles. Challenge a monster!</p>
                         <Button 
                           onClick={() => setActiveTab('battles')}
-                          className="bg-red-500 hover:bg-red-600"
+                          className="bg-red-500 hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-600 text-white"
                         >
                           <Sword className="w-4 h-4 mr-2" />
                           Find Monsters
@@ -438,27 +467,27 @@ export default function MomentumRealmPage() {
                 />
 
                 {/* Daily Stats */}
-                <Card className="bg-slate-800/50 border-slate-700">
+                <Card className="bg-white dark:bg-slate-800/50 border-gray-200 dark:border-slate-700">
                   <CardHeader>
-                    <CardTitle className="text-lg text-white flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-yellow-400" />
+                    <CardTitle className="text-lg text-gray-800 dark:text-white flex items-center gap-2">
+                      <Zap className="w-5 h-5 text-yellow-500 dark:text-yellow-400" />
                       Today's Progress
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
-                      <span className="text-slate-300">Habits Completed</span>
-                      <span className="text-xl font-bold text-green-400">{habitsCompletedToday}</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-slate-700/50 rounded-lg">
+                      <span className="text-gray-700 dark:text-slate-300">Habits Completed</span>
+                      <span className="text-xl font-bold text-green-600 dark:text-green-400">{habitsCompletedToday}</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
-                      <span className="text-slate-300">Damage Ready</span>
-                      <span className="text-xl font-bold text-red-400">{habitsCompletedToday * 5}</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-slate-700/50 rounded-lg">
+                      <span className="text-gray-700 dark:text-slate-300">Damage Ready</span>
+                      <span className="text-xl font-bold text-red-600 dark:text-red-400">{habitsCompletedToday * 5}</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
-                      <span className="text-slate-300">AR Trees</span>
-                      <span className="text-xl font-bold text-green-400">{arTrees.length}</span>
+                    <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-slate-700/50 rounded-lg">
+                      <span className="text-gray-700 dark:text-slate-300">AR Trees</span>
+                      <span className="text-xl font-bold text-green-600 dark:text-green-400">{arTrees.length}</span>
                     </div>
-                    <p className="text-xs text-slate-500 text-center">
+                    <p className="text-xs text-gray-500 dark:text-slate-500 text-center">
                       Complete habits to deal damage to monsters!
                     </p>
                   </CardContent>
@@ -619,20 +648,22 @@ export default function MomentumRealmPage() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {monsters.map(monster => {
-                const battle = activeBattles.find(b => b.monster_id === monster.id);
-                return (
-                  <MonsterBattleCard
-                    key={monster.id}
-                    battle={battle}
-                    monster={monster}
-                    monsterImage={getMonsterImage(monster.name)}
-                    onStartBattle={handleStartBattle}
-                    onAttack={handleAttack}
-                    habitsCompletedToday={habitsCompletedToday}
-                  />
-                );
-              })}
+              {monsters
+                .filter(monster => monster && monster.id && monster.name && monster.type && monster.difficulty)
+                .map(monster => {
+                  const battle = activeBattles.find(b => b.monster_id === monster.id);
+                  return (
+                    <MonsterBattleCard
+                      key={monster.id}
+                      battle={battle}
+                      monster={monster}
+                      monsterImage={getMonsterImage(monster.name)}
+                      onStartBattle={handleStartBattle}
+                      onAttack={handleAttack}
+                      habitsCompletedToday={habitsCompletedToday}
+                    />
+                  );
+                })}
             </div>
           </TabsContent>
 
@@ -856,5 +887,7 @@ export default function MomentumRealmPage() {
         } : undefined}
       />
     </PageWrapper>
+    <Footer />
+  </>
   );
 }

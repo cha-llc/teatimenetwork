@@ -32,6 +32,11 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
   isTeamBattle = false,
   teamMembers = []
 }) => {
+  // Guard: if monster is undefined or missing required properties, don't render
+  if (!monster || !monster.name || !monster.type || !monster.difficulty) {
+    return null;
+  }
+
   const [isAttacking, setIsAttacking] = useState(false);
   const [isStartingBattle, setIsStartingBattle] = useState(false);
   const [showDamageAnimation, setShowDamageAnimation] = useState(false);
@@ -72,7 +77,7 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
   };
 
   const handleStartBattle = async () => {
-    if (!onStartBattle || isStartingBattle) return;
+    if (!onStartBattle || isStartingBattle || !monster?.id) return;
     
     setIsStartingBattle(true);
     try {
@@ -118,13 +123,13 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
           <div className="relative">
             <img 
               src={monsterImage || CHAOS_MONSTER_IMAGE}
-              alt={monster.name}
+              alt={monster?.name || 'Monster'}
               className={`w-20 h-20 rounded-xl object-cover border-2 ${
                 battle ? 'border-red-500' : 'border-slate-600'
               } ${isAttacking ? 'animate-pulse' : ''}`}
             />
             <div className="absolute -bottom-1 -right-1 text-2xl">
-              {getMonsterTypeIcon(monster.type)}
+              {getMonsterTypeIcon(monster?.type || '')}
             </div>
             
             {/* Damage animation */}
@@ -139,15 +144,15 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-1">
-              <h4 className="font-bold text-white truncate">{monster.name}</h4>
-              <Badge className={getDifficultyColor(monster.difficulty)}>
-                {monster.difficulty}
+              <h4 className="font-bold text-white truncate">{monster?.name || 'Unknown Monster'}</h4>
+              <Badge className={getDifficultyColor(monster?.difficulty || 'easy')}>
+                {monster?.difficulty || 'easy'}
               </Badge>
             </div>
-            <p className="text-xs text-slate-400 line-clamp-2 mb-2">{monster.description}</p>
+            <p className="text-xs text-slate-400 line-clamp-2 mb-2">{monster?.description || ''}</p>
             
             {/* Weakness */}
-            {monster.weakness_category && (
+            {monster?.weakness_category && (
               <div className="flex items-center gap-1 text-xs text-amber-400">
                 <Target className="w-3 h-3" />
                 <span>Weak to: {monster.weakness_category}</span>
@@ -208,11 +213,11 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
         <div className="flex items-center gap-3 mb-4 p-2 bg-slate-800/50 rounded-lg">
           <div className="flex items-center gap-1 text-xs">
             <Trophy className="w-3 h-3 text-yellow-400" />
-            <span className="text-yellow-400 font-medium">{monster.rewards.tokens}</span>
+            <span className="text-yellow-400 font-medium">{monster?.rewards?.tokens || 0}</span>
           </div>
           <div className="flex items-center gap-1 text-xs">
             <Sparkles className="w-3 h-3 text-purple-400" />
-            <span className="text-purple-400 font-medium">{monster.rewards.experience} XP</span>
+            <span className="text-purple-400 font-medium">{monster?.rewards?.experience || 0} XP</span>
           </div>
           {battle && battle.expires_at && (
             <div className="flex items-center gap-1 text-xs ml-auto">
@@ -292,7 +297,7 @@ export const MonsterBattleCard: React.FC<MonsterBattleCardProps> = ({
       </CardContent>
 
       {/* Boss indicator */}
-      {monster.difficulty === 'boss' && (
+      {monster?.difficulty === 'boss' && (
         <div className="absolute top-2 right-2">
           <Crown className="w-6 h-6 text-yellow-400 animate-pulse" />
         </div>
@@ -321,6 +326,11 @@ export const TeamBattleCard: React.FC<TeamBattleProps> = ({
   onAttack,
   habitsCompletedToday
 }) => {
+  // Guard: if monster is undefined or missing required properties, don't render
+  if (!monster || !monster.name || !battle) {
+    return null;
+  }
+
   const totalTeamDamage = participants.reduce((sum, p) => sum + p.damage, 0);
   const healthPercentage = (battle.current_health / battle.max_health) * 100;
 
@@ -343,13 +353,13 @@ export const TeamBattleCard: React.FC<TeamBattleProps> = ({
           <div className="flex items-center justify-center">
             <img 
               src={monsterImage || CHAOS_MONSTER_IMAGE}
-              alt={monster.name}
+              alt={monster?.name || 'Monster'}
               className="w-32 h-32 rounded-2xl object-cover border-4 border-red-500/50 shadow-lg shadow-red-500/20"
             />
           </div>
           <div className="text-center mt-3">
-            <h3 className="text-xl font-bold text-white">{monster.name}</h3>
-            <p className="text-sm text-slate-400">{monster.description}</p>
+            <h3 className="text-xl font-bold text-white">{monster?.name || 'Unknown Monster'}</h3>
+            <p className="text-sm text-slate-400">{monster?.description || ''}</p>
           </div>
         </div>
 

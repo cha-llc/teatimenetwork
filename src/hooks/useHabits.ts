@@ -502,15 +502,23 @@ export const useHabits = () => {
   };
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    // Fetch 90 days of history for better calendar support
-    const ninetyDaysAgo = new Date(Date.now() - 90 * 86400000).toISOString().split('T')[0];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of day to avoid timezone issues
+    const todayStr = today.toISOString().split('T')[0];
     
-    Promise.all([
-      fetchHabits(),
-      fetchCompletions(ninetyDaysAgo, today),
-      fetchStreaks()
-    ]).then(() => setLoading(false));
+    // Fetch 90 days of history for better calendar support
+    const ninetyDaysAgoDate = new Date(today);
+    ninetyDaysAgoDate.setDate(ninetyDaysAgoDate.getDate() - 90);
+    const ninetyDaysAgo = ninetyDaysAgoDate.toISOString().split('T')[0];
+    
+    // Ensure dates are valid (startDate <= endDate and endDate is not in the future)
+    if (ninetyDaysAgo <= todayStr && todayStr <= new Date().toISOString().split('T')[0]) {
+      Promise.all([
+        fetchHabits(),
+        fetchCompletions(ninetyDaysAgo, todayStr),
+        fetchStreaks()
+      ]).then(() => setLoading(false));
+    }
   }, [user, fetchHabits, fetchCompletions, fetchStreaks]);
 
   return {

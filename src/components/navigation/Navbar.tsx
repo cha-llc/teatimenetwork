@@ -122,7 +122,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSettings, onOpenUpgrade, onOpenPr
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1 flex-shrink min-w-0 overflow-x-auto">
+          <div className="hidden xl:flex flex-1 min-w-0 max-w-[380px] mx-2">
+            <nav className="flex items-center gap-2.5 overflow-x-auto w-full [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent dark:[&::-webkit-scrollbar-thumb]:bg-gray-600">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
@@ -146,6 +147,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSettings, onOpenUpgrade, onOpenPr
               );
             })}
           </nav>
+          </div>
 
           {/* Right side actions */}
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">

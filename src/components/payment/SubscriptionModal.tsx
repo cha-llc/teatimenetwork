@@ -140,8 +140,6 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
     checkGatewayHealth();
   };
 
-  if (!isOpen) return null;
-
   const tier = tierConfig[currentTier];
   const TierIcon = tier.icon;
 
@@ -214,10 +212,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
 
   // Service Unavailable View
   if (step === 'unavailable') {
+    if (!isOpen) return null;
+    
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-        <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
+        <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden max-h-[90vh] animate-in fade-in zoom-in-95 duration-300 flex flex-col">
+          <div className="overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 pr-1">
           {/* Header */}
           <div className="relative p-8 text-white text-center bg-gradient-to-br from-gray-500 to-gray-600">
             <button
@@ -283,15 +284,19 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
               If this issue persists, please contact support@teatimenetwork.app
             </p>
           </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
+      <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden max-h-[90vh] animate-in fade-in zoom-in-95 duration-300 flex flex-col">
+        <div className="overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent dark:[&::-webkit-scrollbar-thumb]:bg-gray-600 pr-1">
         {/* Header */}
         <div className={`relative p-8 text-white text-center bg-gradient-to-br ${
           isExpired 
@@ -507,6 +512,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isOpen, onClose, 
               <Loader2 className="w-8 h-8 animate-spin text-[#7C9885]" />
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>
