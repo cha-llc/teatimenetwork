@@ -2,6 +2,9 @@ import React, { createContext, useContext, useEffect, useState, useMemo, useRef 
 import { supabase } from '@/lib/supabase';
 import { User, Session } from '@supabase/supabase-js';
 
+type SubscriptionStatus = 'free' | 'active' | 'expired';
+type UserRole = 'user' | 'admin';
+
 interface Profile {
   id: string;
   email: string;
@@ -10,16 +13,22 @@ interface Profile {
   avatar_url: string | null;
   bio: string | null;
   language: string;
-  is_premium: boolean;
-  is_admin: boolean;
-  subscription_tier: 'starter' | 'pro' | 'ultimate' | null;
+  // Authentication & Access Control
+  role: UserRole;
+  subscription_status: SubscriptionStatus;
+  // Reminders & Preferences
   reminder_time: string;
   reminder_enabled: boolean;
   timezone: string;
+  // Legacy (kept for backward compatibility)
+  is_premium: boolean;
+  is_admin: boolean;
+  subscription_tier: 'starter' | 'pro' | 'ultimate' | null;
   trial_started_at: string | null;
+  // Metadata
+  created_at?: string;
+  updated_at?: string;
 }
-
-
 
 interface TrialStatus {
   isTrialActive: boolean;
@@ -34,7 +43,13 @@ interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   trialStatus: TrialStatus;
+  // Access control helpers
   isPremium: boolean;
+  isAdmin: boolean;
+  subscriptionStatus: SubscriptionStatus;
+  userRole: UserRole;
+  canAccess: (requiredRole?: UserRole, requiredSubscription?: SubscriptionStatus) => boolean;
+  // Auth methods
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
@@ -63,17 +78,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
       
       if (!error && data) {
+        // Normalize subscription status
+        const profile: Profile = {
+          ...data,
+          role: data.role || 'user',
+          subscription_status: data.subscription_status || 'free',
+        };
+
         // Migrate existing users to trial if they don't have trial_started_at
-        if (!data.trial_started_at && !data.is_premium) {
+        if (!profile.trial_started_at && !profile.is_premium) {
           const trialStartDate = new Date().toISOString();
           await supabase
             .from('profiles')
             .update({ trial_started_at: trialStartDate })
             .eq('id', userId);
-          data.trial_started_at = trialStartDate;
+          profile.trial_started_at = trialStartDate;
         }
-        setProfile(data);
-        return data;
+        
+        setProfile(profile);
+        return profile;
       }
       return null;
     } catch (err) {
@@ -261,7 +284,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const isPremium = profile?.is_premium || false;
+  const isPremium = profile?.is_premium || profile?.subscription_status === 'active' || false;
+  const isAdmin = profile?.is_admin || profile?.role === 'admin' || false;
+  const subscriptionStatus: SubscriptionStatus = profile?.subscription_status || 'free';
+  const userRole: UserRole = profile?.role || 'user';
+
+  /**
+   * Check if user can access content based on role and subscription
+   * @param requiredRole - Required user role ('user' or 'admin')
+   * @param requiredSubscription - Required subscription ('free', 'active', or 'expired' for read-only)
+   * @returns boolean - true if user meets requirements
+   */
+  const canAccess = (requiredRole?: UserRole, requiredSubscription?: SubscriptionStatus): boolean => {
+    // Not authenticated
+    if (!user) return false;
+
+    // Admin routes require admin role
+    if (requiredRole === 'admin' && !isAdmin) return false;
+
+    // Subscription checks
+    if (requiredSubscription) {
+      if (requiredSubscription === 'active' && subscriptionStatus !== 'active') {
+        return false;
+      }
+      if (requiredSubscription === 'free' && !user) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   return (
     <AuthContext.Provider value={{
@@ -271,6 +323,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       loading,
       trialStatus,
       isPremium,
+      isAdmin,
+      subscriptionStatus,
+      userRole,
+      canAccess,
       signUp,
       signIn,
       signOut,

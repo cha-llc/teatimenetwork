@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import ProtectedRoute from "@/components/routing/ProtectedRoute";
 import Index from "./pages/Index";
 import CategoriesPage from "./pages/CategoriesPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
@@ -43,31 +44,173 @@ const App = () => (
             <Sonner />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <Routes>
+                {/* PUBLIC ROUTES - No auth required */}
                 <Route path="/" element={<Index />} />
-                <Route path="/habits" element={<HabitsPage />} />
-                <Route path="/categories" element={<CategoriesPage />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/templates" element={<TemplatesPage />} />
-                <Route path="/achievements" element={<GamificationPage />} />
-                <Route path="/insights" element={<InsightsPage />} />
-                <Route path="/challenges" element={<ChallengesPage />} />
-                <Route path="/smart-ecosystem" element={<IoTPage />} />
-                <Route path="/integrations" element={<IoTPage />} />
-                <Route path="/incubator" element={<IncubatorPage />} />
-                <Route path="/neuro-feedback" element={<NeuroFeedbackPage />} />
-                <Route path="/neuro-history" element={<NeuroHistoryPage />} />
-                <Route path="/teams" element={<TeamsPage />} />
-                <Route path="/teams/join/:inviteCode" element={<TeamsPage />} />
-                <Route path="/momentum-realm" element={<MomentumRealmPage />} />
-                <Route path="/accountability" element={<AccountabilityPage />} />
-                <Route path="/community" element={<CommunityPage />} />
-                <Route path="/user/:username" element={<UserProfilePage />} />
-                <Route path="/payment-success" element={<PaymentSuccessPage />} />
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="/terms" element={<TermsPage />} />
                 <Route path="/cookies" element={<PrivacyPage />} />
-                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/payment-success" element={<PaymentSuccessPage />} />
+
+                {/* AUTH REQUIRED - Free tier allowed */}
+                <Route
+                  path="/habits"
+                  element={
+                    <ProtectedRoute>
+                      <HabitsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/user/:username"
+                  element={
+                    <ProtectedRoute>
+                      <UserProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* SUBSCRIPTION GATED - Active subscription required */}
+                <Route
+                  path="/categories"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <CategoriesPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/analytics"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <AnalyticsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/templates"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <TemplatesPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/achievements"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <GamificationPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/insights"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <InsightsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/challenges"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <ChallengesPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/smart-ecosystem"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <IoTPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/integrations"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <IoTPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/incubator"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <IncubatorPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/neuro-feedback"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <NeuroFeedbackPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/neuro-history"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <NeuroHistoryPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <TeamsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/teams/join/:inviteCode"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <TeamsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/momentum-realm"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <MomentumRealmPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/accountability"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <AccountabilityPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/community"
+                  element={
+                    <ProtectedRoute requireSubscription="active">
+                      <CommunityPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* ADMIN ONLY */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute requireAdmin={true}>
+                      <AdminPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* 404 Catch-all */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
