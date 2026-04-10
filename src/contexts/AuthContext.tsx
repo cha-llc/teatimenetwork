@@ -245,6 +245,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw new Error('Please enter a valid email address');
       }
 
+      // Check if Supabase is configured
+      if (!process.env.VITE_SUPABASE_URL && !import.meta.env.VITE_SUPABASE_URL) {
+        throw new Error(
+          '⚠️ Supabase is not configured. Please add environment variables:\n' +
+          'VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY\n\n' +
+          'For Vercel:\n' +
+          '1. Go to dashboard: https://vercel.com/dashboard/teatimenetwork\n' +
+          '2. Settings → Environment Variables\n' +
+          '3. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY\n' +
+          '4. Redeploy'
+        );
+      }
+
       // Sign up user
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -261,6 +274,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
+        // Check for Supabase configuration errors
+        if (error.message?.includes('Project not found') || error.message?.includes('dummy')) {
+          throw new Error(
+            '⚠️ Supabase configuration error: Project not found\n\n' +
+            'This means environment variables are missing or invalid.\n\n' +
+            'TO FIX:\n' +
+            '1. Go to: https://vercel.com/dashboard/teatimenetwork\n' +
+            '2. Click: Settings → Environment Variables\n' +
+            '3. Add:\n' +
+            '   - VITE_SUPABASE_URL (your Supabase URL)\n' +
+            '   - VITE_SUPABASE_ANON_KEY (your Supabase anon key)\n' +
+            '4. Redeploy the application\n\n' +
+            'Get credentials from: https://supabase.com/dashboard\n' +
+            'Project → Settings → API'
+          );
+        }
         throw error;
       }
 
