@@ -232,16 +232,75 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (email: string, password: string, fullName: string) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      // Validate inputs
+      if (!email || !password || !fullName) {
+        throw new Error('Email, password, and full name are required');
+      }
+
+      if (password.length < 8) {
+        throw new Error('Password must be at least 8 characters');
+      }
+
+      if (!email.includes('@')) {
+        throw new Error('Please enter a valid email address');
+      }
+
+      // Sign up user
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { full_name: fullName }
-        }
+          data: {
+            full_name: fullName,
+            display_name: fullName,
+            language: 'en',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data.user) {
+        throw new Error('Account creation failed. Please try again.');
+      }
+
+      // Manual profile creation as fallback if trigger doesn't work
+      // This ensures the profile is created even if the database trigger fails
+      try {
+        const { error: profileError } = await supabase.from('profiles').insert({
+          id: data.user.id,
+          email: email,
+          full_name: fullName,
+          display_name: fullName,
+          language: 'en',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+          role: 'user',
+          subscription_status: 'free',
+          reminder_enabled: true,
+          reminder_time: '09:00',
+          is_premium: false,
+          is_admin: false,
+          trial_started_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+
+        // Profile creation error is not critical - trigger should have created it
+        if (profileError) {
+          console.warn('Profile creation fallback warning:', profileError);
+        }
+      } catch (profileErr) {
+        console.warn('Profile creation fallback error:', profileErr);
+      }
+
+      return { error: null };
+    } catch (err: any) {
+      const error = new Error(err?.message || 'Sign up failed. Please try again.');
       return { error };
-    } catch (err) {
-      return { error: err as Error };
     }
   };
 
