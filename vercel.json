@@ -1,0 +1,196 @@
+// vercel.json - Tea Time Network Deployment Configuration
+{
+  "name": "Tea Time Network",
+  "version": 2,
+  "buildCommand": "npm run build",
+  "framework": "vite",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  
+  "env": [
+    // Stripe
+    {
+      "key": "STRIPE_SECRET_KEY",
+      "description": "Stripe secret key (live)",
+      "value": "@stripe_secret_key",
+      "target": ["production", "preview", "development"]
+    },
+    {
+      "key": "VITE_STRIPE_PUBLISHABLE_KEY",
+      "description": "Stripe publishable key (live)",
+      "value": "@stripe_publishable_key",
+      "target": ["production", "preview", "development"]
+    },
+    {
+      "key": "STRIPE_WEBHOOK_SECRET",
+      "description": "Stripe webhook secret",
+      "value": "@stripe_webhook_secret",
+      "target": ["production", "preview", "development"]
+    },
+    
+    // Supabase
+    {
+      "key": "VITE_SUPABASE_URL",
+      "description": "Supabase project URL",
+      "value": "@supabase_url",
+      "target": ["production", "preview", "development"]
+    },
+    {
+      "key": "VITE_SUPABASE_ANON_KEY",
+      "description": "Supabase anonymous key",
+      "value": "@supabase_anon_key",
+      "target": ["production", "preview", "development"]
+    },
+    
+    // MCP APIs
+    {
+      "key": "SOCIALBLU_API_KEY",
+      "description": "Socialblu API key",
+      "value": "@socialblu_api_key",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "HUBSPOT_API_KEY",
+      "description": "HubSpot API key",
+      "value": "@hubspot_api_key",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "SLACK_WEBHOOK_URL",
+      "description": "Slack webhook URL",
+      "value": "@slack_webhook_url",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "SLACK_BOT_TOKEN",
+      "description": "Slack bot token",
+      "value": "@slack_bot_token",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "AMPLITUDE_API_KEY",
+      "description": "Amplitude API key",
+      "value": "@amplitude_api_key",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "GMAIL_SERVICE_ACCOUNT_EMAIL",
+      "description": "Gmail service account email",
+      "value": "@gmail_service_account_email",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "GMAIL_PRIVATE_KEY",
+      "description": "Gmail private key",
+      "value": "@gmail_private_key",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "GOOGLE_CALENDAR_CLIENT_ID",
+      "description": "Google Calendar client ID",
+      "value": "@google_calendar_client_id",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "GOOGLE_CALENDAR_CLIENT_SECRET",
+      "description": "Google Calendar client secret",
+      "value": "@google_calendar_client_secret",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "LINEAR_API_KEY",
+      "description": "Linear API key",
+      "value": "@linear_api_key",
+      "target": ["production", "preview"]
+    },
+    {
+      "key": "TICKET_TAILOR_API_KEY",
+      "description": "Ticket Tailor API key",
+      "value": "@ticket_tailor_api_key",
+      "target": ["production", "preview"]
+    },
+    
+    // App Config
+    {
+      "key": "VITE_APP_URL",
+      "description": "App URL",
+      "value": "https://teatimenetwork.app",
+      "target": ["production"]
+    },
+    {
+      "key": "NODE_ENV",
+      "description": "Node environment",
+      "value": "production",
+      "target": ["production"]
+    }
+  ],
+  
+  "routes": [
+    {
+      "src": "/api/webhooks/stripe",
+      "dest": "/src/api/webhooks/stripe.ts",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/api/webhooks/stripe-mcp",
+      "dest": "/src/api/webhooks/stripeWithMCP.ts",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/api/health",
+      "dest": "/src/api/health.ts",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  
+  "redirects": [
+    {
+      "source": "/upgrade",
+      "destination": "/checkout?utm_source=app&utm_medium=cpc&utm_campaign=upgrade_prompt",
+      "permanent": false
+    },
+    {
+      "source": "/account",
+      "destination": "/account-settings",
+      "permanent": true
+    }
+  ],
+  
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "publicSource": "./public",
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 30,
+      "memory": 3008
+    }
+  }
+}
