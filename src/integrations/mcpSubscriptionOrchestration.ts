@@ -324,7 +324,7 @@ export async function trackSocialbluSubscriptionEngagement(
     // GET /posts/{postId}/analytics for each post
     // Aggregate metrics
 
-    console.log('[Socialblu] Tracking engagement for posts:', postIds);
+    // DEBUG: '[Socialblu] Tracking engagement for posts:', postIds
 
     return { success: true, metrics: {} };
   } catch (error) {
@@ -427,7 +427,7 @@ export async function trackSubscriptionEmailMetrics(
     // Track clicks via UTM params
     // Track bounces
 
-    console.log('[Gmail] Tracking email metrics:', emailId);
+    // DEBUG: '[Gmail] Tracking email metrics:', emailId
 
     return { opens: 0, clicks: 0, bounces: 0 };
   } catch (error) {
@@ -560,7 +560,7 @@ export async function getAmplitudeCohortMetrics(
     // GET /cohorts/{cohortId}
     // Return: retention curve, churn rate, LTV
 
-    console.log('[Amplitude] Fetching cohort metrics:', cohortId);
+    // DEBUG: '[Amplitude] Fetching cohort metrics:', cohortId
 
     return { retention: [], churn: 0, ltv: 0 };
   } catch (error) {
@@ -754,7 +754,7 @@ export async function trackCheckoutPageMetrics(
   errors?: number;
 }> {
   try {
-    console.log('[Vercel] Tracking checkout metrics:', pageUrl);
+    // DEBUG: '[Vercel] Tracking checkout metrics:', pageUrl
 
     // TODO: Call Vercel API
     // GET /analytics/page

@@ -14,48 +14,17 @@ import { createClient } from '@supabase/supabase-js';
 let supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 let supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
-// Log configuration status for debugging
+// Configuration validation
 const isConfigured = !!(supabaseUrl && supabaseKey);
-console.log(`[Supabase] Configuration Status: ${isConfigured ? '✅ CONFIGURED' : '❌ MISSING'}`);
-
-if (supabaseUrl) {
-  console.log(`[Supabase] URL: ${supabaseUrl.substring(0, 30)}...`);
-}
 
 // Validate configuration with helpful error message
 if (!supabaseUrl || !supabaseKey) {
-  const errorMessage = `
-╔════════════════════════════════════════════════════════════════════╗
-║                    SUPABASE CONFIGURATION ERROR                   ║
-╚════════════════════════════════════════════════════════════════════╝
-
-❌ Missing environment variables:
-${!supabaseUrl ? '  ✗ VITE_SUPABASE_URL\n' : '  ✓ VITE_SUPABASE_URL\n'}${!supabaseKey ? '  ✗ VITE_SUPABASE_ANON_KEY' : '  ✓ VITE_SUPABASE_ANON_KEY'}
-
-📋 TO FIX:
-
-For Development (.env.local):
-  VITE_SUPABASE_URL=https://your-project.supabase.co
-  VITE_SUPABASE_ANON_KEY=your-anon-key-here
-
-For Production (Vercel):
-  1. Go to: https://vercel.com/dashboard/teatimenetwork
-  2. Settings → Environment Variables
-  3. Add: VITE_SUPABASE_URL (production value)
-  4. Add: VITE_SUPABASE_ANON_KEY (production value)
-  5. Redeploy
-
-📍 Get credentials from: https://supabase.com/dashboard
-   Project → Settings → API
-`;
-  
-  console.error(errorMessage);
-  
-  // For development, create a dummy client that provides helpful errors
-  // This prevents the entire app from crashing
   if (typeof window !== 'undefined') {
-    // Client-side: show alert to user
-    console.warn('⚠️  Supabase is not configured. Account creation and authentication will not work.');
+    console.error(
+      '❌ SUPABASE CONFIGURATION ERROR\n' +
+      'Missing environment variables: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY\n' +
+      'For Vercel: https://vercel.com/dashboard/teatimenetwork → Settings → Environment Variables'
+    );
   }
 }
 
@@ -80,9 +49,6 @@ if (supabaseUrl && supabaseKey) {
   });
 } else {
   // Credentials missing - create dummy client to prevent crashes
-  // Real authentication will fail with helpful error messages
-  console.warn('⚠️  Creating dummy Supabase client - authentication will not work');
-  
   supabase = createClient(
     supabaseUrl || 'https://dummy.supabase.co',
     supabaseKey || 'dummy-key',
@@ -101,4 +67,4 @@ if (supabaseUrl && supabaseKey) {
   );
 }
 
-export { supabase };
+export { supabase, isConfigured };

@@ -52,7 +52,7 @@ export async function handleStripeWebhook(req: Request, res: Response): Promise<
 
   try {
     // Log event for debugging
-    console.log(`[Stripe Webhook] Event: ${event.type} | ID: ${event.id}`);
+    // DEBUG: `[Stripe Webhook] Event: ${event.type} | ID: ${event.id}`
 
     // Route to appropriate handler
     switch (event.type) {
@@ -77,7 +77,7 @@ export async function handleStripeWebhook(req: Request, res: Response): Promise<
         break;
 
       default:
-        console.log(`[Stripe Webhook] Unhandled event type: ${event.type}`);
+        // DEBUG: `[Stripe Webhook] Unhandled event type: ${event.type}`
     }
 
     // Always return 200 to acknowledge receipt
@@ -108,7 +108,7 @@ async function handleSubscriptionCreated(event: Stripe.Event): Promise<void> {
     return;
   }
 
-  console.log(`[Webhook] Subscription created for user ${userId}:`, subscription.id);
+  // DEBUG: `[Webhook] Subscription created for user ${userId}:`, subscription.id
 
   // Create subscription record
   const result = await subscriptionService.createSubscription(
@@ -135,7 +135,7 @@ async function handleSubscriptionCreated(event: Stripe.Event): Promise<void> {
     }
   );
 
-  console.log(`[Webhook] Subscription created and user ${userId} unlocked`);
+  // DEBUG: `[Webhook] Subscription created and user ${userId} unlocked`
 }
 
 /**
@@ -148,7 +148,7 @@ async function handleSubscriptionUpdated(event: Stripe.Event): Promise<void> {
   const subscription = event.data.object as Stripe.Subscription;
   const previousAttributes = event.data.previous_attributes as Record<string, any>;
 
-  console.log(`[Webhook] Subscription updated:`, subscription.id);
+  // DEBUG: `[Webhook] Subscription updated:`, subscription.id
 
   // Get existing subscription
   const existing = await subscriptionService.getSubscriptionByStripeId(subscription.id);
@@ -188,7 +188,7 @@ async function handleSubscriptionUpdated(event: Stripe.Event): Promise<void> {
     }
   );
 
-  console.log(`[Webhook] Subscription ${subscription.id} updated`);
+  // DEBUG: `[Webhook] Subscription ${subscription.id} updated`
 }
 
 /**
@@ -200,7 +200,7 @@ async function handleSubscriptionUpdated(event: Stripe.Event): Promise<void> {
 async function handleSubscriptionDeleted(event: Stripe.Event): Promise<void> {
   const subscription = event.data.object as Stripe.Subscription;
 
-  console.log(`[Webhook] Subscription deleted:`, subscription.id);
+  // DEBUG: `[Webhook] Subscription deleted:`, subscription.id
 
   // Get existing subscription
   const existing = await subscriptionService.getSubscriptionByStripeId(subscription.id);
@@ -233,7 +233,7 @@ async function handleSubscriptionDeleted(event: Stripe.Event): Promise<void> {
     }
   );
 
-  console.log(`[Webhook] Subscription ${subscription.id} expired and user access revoked`);
+  // DEBUG: `[Webhook] Subscription ${subscription.id} expired and user access revoked`
 }
 
 /**
@@ -247,11 +247,11 @@ async function handlePaymentSucceeded(event: Stripe.Event): Promise<void> {
   const subscriptionId = invoice.subscription as string;
 
   if (!subscriptionId) {
-    console.log('[Webhook] Payment succeeded but no subscription attached to invoice');
+    // DEBUG: '[Webhook] Payment succeeded but no subscription attached to invoice'
     return;
   }
 
-  console.log(`[Webhook] Payment succeeded for subscription:`, subscriptionId);
+  // DEBUG: `[Webhook] Payment succeeded for subscription:`, subscriptionId
 
   // Get subscription
   const subscription = await subscriptionService.getSubscriptionByStripeId(subscriptionId);
@@ -286,7 +286,7 @@ async function handlePaymentSucceeded(event: Stripe.Event): Promise<void> {
     }
   );
 
-  console.log(`[Webhook] Payment succeeded and subscription ${subscriptionId} activated`);
+  // DEBUG: `[Webhook] Payment succeeded and subscription ${subscriptionId} activated`
 }
 
 /**
@@ -301,11 +301,11 @@ async function handlePaymentFailed(event: Stripe.Event): Promise<void> {
   const subscriptionId = invoice.subscription as string;
 
   if (!subscriptionId) {
-    console.log('[Webhook] Payment failed but no subscription attached to invoice');
+    // DEBUG: '[Webhook] Payment failed but no subscription attached to invoice'
     return;
   }
 
-  console.log(`[Webhook] Payment failed for subscription:`, subscriptionId);
+  // DEBUG: `[Webhook] Payment failed for subscription:`, subscriptionId
 
   // Get subscription
   const subscription = await subscriptionService.getSubscriptionByStripeId(subscriptionId);
@@ -344,7 +344,7 @@ async function handlePaymentFailed(event: Stripe.Event): Promise<void> {
   // TODO: Send email to user
   // await sendPaymentFailedEmail(subscription.userId, subscription)
 
-  console.log(`[Webhook] Payment failed for subscription ${subscriptionId}, grace period activated`);
+  // DEBUG: `[Webhook] Payment failed for subscription ${subscriptionId}, grace period activated`
 }
 
 // ============================================================================
@@ -386,7 +386,7 @@ export async function retryWebhookEvent(
     }
 
     // Re-process it
-    console.log(`[Webhook] Retrying event ${eventId} manually`);
+    // DEBUG: `[Webhook] Retrying event ${eventId} manually`
     await handleStripeWebhook(
       {
         headers: {
@@ -439,7 +439,7 @@ export async function testWebhookEvent(eventType: string): Promise<{ success: bo
     const mockEvent = createMockStripeEvent(eventType);
 
     // Process it
-    console.log(`[Webhook Test] Processing mock event: ${eventType}`);
+    // DEBUG: `[Webhook Test] Processing mock event: ${eventType}`
     await handleStripeWebhook(
       {
         headers: { 'stripe-signature': 'test-signature' },

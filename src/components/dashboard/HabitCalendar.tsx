@@ -158,7 +158,7 @@ const HabitCalendar: React.FC<HabitCalendarProps> = ({
 
   // Handle individual habit toggle
   const handleToggleHabit = (habitId: string, date: string) => {
-    console.log('Calendar: Toggling habit', habitId, 'for date', date);
+    // DEBUG: 'Calendar: Toggling habit', habitId, 'for date', date
     if (!disabled && date <= today) {
       onToggleCompletion(habitId, date);
     }
@@ -166,7 +166,7 @@ const HabitCalendar: React.FC<HabitCalendarProps> = ({
 
   // Handle complete all for a date
   const handleCompleteAll = (date: string) => {
-    console.log('Calendar: Completing all habits for date', date);
+    // DEBUG: 'Calendar: Completing all habits for date', date
     if (disabled || date > today) return;
     
     const habitsForDate = getHabitsForDayOfWeek(date);
@@ -179,7 +179,7 @@ const HabitCalendar: React.FC<HabitCalendarProps> = ({
 
   // Handle clear all for a date
   const handleClearAll = (date: string) => {
-    console.log('Calendar: Clearing all habits for date', date);
+    // DEBUG: 'Calendar: Clearing all habits for date', date
     if (disabled || date > today) return;
     
     const habitsForDate = getHabitsForDayOfWeek(date);

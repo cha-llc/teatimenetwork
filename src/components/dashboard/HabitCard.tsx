@@ -106,7 +106,7 @@ const HabitCard: React.FC<HabitCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
     if (!disabled) {
-      console.log('Toggling habit:', habit.id, habit.name);
+      // DEBUG: 'Toggling habit:', habit.id, habit.name
       onToggle();
     }
   };

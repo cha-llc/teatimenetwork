@@ -284,7 +284,7 @@ export const useHabits = () => {
     
     // Don't allow completing future dates
     if (date > today) {
-      console.log('Cannot complete future dates');
+      // DEBUG: 'Cannot complete future dates'
       return;
     }
     

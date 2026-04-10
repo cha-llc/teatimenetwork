@@ -560,7 +560,7 @@ export const useMomentumRealm = () => {
 
   // Initialize with demo data
   const initializeDemoMode = useCallback(() => {
-    console.log('Initializing Momentum Realm in demo mode');
+    // DEBUG: 'Initializing Momentum Realm in demo mode'
     setIsDemoMode(true);
     
     // Load saved profile from localStorage or use default
@@ -660,7 +660,7 @@ export const useMomentumRealm = () => {
     
     // If no session, go straight to demo mode
     if (!session) {
-      console.log('No authenticated session, using demo mode');
+      // DEBUG: 'No authenticated session, using demo mode'
       initializeDemoMode();
       return;
     }
@@ -681,7 +681,7 @@ export const useMomentumRealm = () => {
       
       if (chaptersError || !chaptersData || chaptersData.length === 0) {
         // Fall back to demo mode
-        console.log('Database query failed or empty, using demo mode');
+        // DEBUG: 'Database query failed or empty, using demo mode'
         initializeDemoMode();
         return;
       }

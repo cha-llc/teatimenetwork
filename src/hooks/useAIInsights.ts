@@ -116,7 +116,7 @@ export const useAIInsights = () => {
         // Even if success is false, we might have fallback insights
         setInsights(data.insights);
         if (data.error) {
-          console.warn('AI Insights warning:', data.error);
+          // WARN: 'AI Insights warning:', data.error
         }
       } else {
         throw new Error('Failed to generate insights');

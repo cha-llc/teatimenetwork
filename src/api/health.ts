@@ -347,7 +347,7 @@ function checkMCPConfigurations(): MCPTestResult[] {
  */
 export async function handleMCPHealthCheck(req: Request, res: Response): Promise<void> {
   try {
-    console.log('[Health Check] Starting MCP connection tests');
+    // DEBUG: '[Health Check] Starting MCP connection tests'
 
     // Run all MCP tests in parallel
     const [
@@ -401,7 +401,7 @@ export async function handleMCPHealthCheck(req: Request, res: Response): Promise
       summary,
     };
 
-    console.log('[Health Check] Tests completed', summary);
+    // DEBUG: '[Health Check] Tests completed', summary
 
     res.status(200).json(response);
   } catch (error) {

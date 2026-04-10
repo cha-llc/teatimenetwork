@@ -41,13 +41,13 @@ export async function handleStripeWebhookWithMCP(
   }
 
   try {
-    console.log(`[Webhook + MCP] Event: ${event.type} | ID: ${event.id}`);
+    // DEBUG: `[Webhook + MCP] Event: ${event.type} | ID: ${event.id}`
 
     // Get user info from event
     const userInfo = extractUserInfoFromEvent(event);
 
     if (!userInfo) {
-      console.warn(`[Webhook] No user info found in event ${event.id}`);
+      // WARN: `[Webhook] No user info found in event ${event.id}`
       res.json({ received: true, eventId: event.id });
       return;
     }
@@ -75,7 +75,7 @@ export async function handleStripeWebhookWithMCP(
         break;
 
       default:
-        console.log(`[Webhook] Unhandled event type: ${event.type}`);
+        // DEBUG: `[Webhook] Unhandled event type: ${event.type}`
     }
 
     // Always return 200 to acknowledge receipt
@@ -110,7 +110,7 @@ async function handleSubscriptionCreatedWithMCP(
 ): Promise<void> {
   const subscription = event.data.object as Stripe.Subscription;
 
-  console.log(`[Webhook + MCP] Subscription created for user ${userInfo.userId}`);
+  // DEBUG: `[Webhook + MCP] Subscription created for user ${userInfo.userId}`
 
   // 1. Create subscription record (database)
   const result = await subscriptionService.createSubscription(
@@ -148,7 +148,7 @@ async function handleSubscriptionCreatedWithMCP(
     utmSource: userInfo.utmSource,
   });
 
-  console.log(`[Webhook + MCP] MCP orchestration complete:`, mcpResult.services);
+  // DEBUG: `[Webhook + MCP] MCP orchestration complete:`, mcpResult.services
 
   // 4. Post to social media (Socialblu)
   if (userInfo.email) {
@@ -187,7 +187,7 @@ async function handleSubscriptionUpdatedWithMCP(
   const subscription = event.data.object as Stripe.Subscription;
   const previousAttributes = event.data.previous_attributes as Record<string, any>;
 
-  console.log(`[Webhook + MCP] Subscription updated for user ${userInfo.userId}`);
+  // DEBUG: `[Webhook + MCP] Subscription updated for user ${userInfo.userId}`
 
   // Check if status changed
   const statusChanged = previousAttributes?.status !== undefined;
@@ -249,7 +249,7 @@ async function handleSubscriptionDeletedWithMCP(
 ): Promise<void> {
   const subscription = event.data.object as Stripe.Subscription;
 
-  console.log(`[Webhook + MCP] Subscription deleted for user ${userInfo.userId}`);
+  // DEBUG: `[Webhook + MCP] Subscription deleted for user ${userInfo.userId}`
 
   // Get existing subscription
   const existing = await subscriptionService.getSubscriptionByStripeId(subscription.id);
@@ -296,7 +296,7 @@ async function handleSubscriptionDeletedWithMCP(
   // TODO: Create win-back campaign task in Linear
   // Segment for win-back email campaign in HubSpot
 
-  console.log(`[Webhook + MCP] Subscription expired and user access revoked for ${userInfo.email}`);
+  // DEBUG: `[Webhook + MCP] Subscription expired and user access revoked for ${userInfo.email}`
 }
 
 /**
@@ -317,11 +317,11 @@ async function handlePaymentSucceededWithMCP(
   const subscriptionId = invoice.subscription as string;
 
   if (!subscriptionId) {
-    console.log('[Webhook] Payment succeeded but no subscription attached');
+    // DEBUG: '[Webhook] Payment succeeded but no subscription attached'
     return;
   }
 
-  console.log(`[Webhook + MCP] Payment succeeded for subscription ${subscriptionId}`);
+  // DEBUG: `[Webhook + MCP] Payment succeeded for subscription ${subscriptionId}`
 
   // Get subscription
   const subscription = await subscriptionService.getSubscriptionByStripeId(subscriptionId);
@@ -364,7 +364,7 @@ async function handlePaymentSucceededWithMCP(
     subscriptionStatus: subscription.status,
   });
 
-  console.log(`[Webhook + MCP] Payment succeeded and subscription activated for ${userInfo.email}`);
+  // DEBUG: `[Webhook + MCP] Payment succeeded and subscription activated for ${userInfo.email}`
 }
 
 /**
@@ -385,11 +385,11 @@ async function handlePaymentFailedWithMCP(
   const subscriptionId = invoice.subscription as string;
 
   if (!subscriptionId) {
-    console.log('[Webhook] Payment failed but no subscription attached');
+    // DEBUG: '[Webhook] Payment failed but no subscription attached'
     return;
   }
 
-  console.log(`[Webhook + MCP] Payment failed for subscription ${subscriptionId}`);
+  // DEBUG: `[Webhook + MCP] Payment failed for subscription ${subscriptionId}`
 
   // Get subscription
   const subscription = await subscriptionService.getSubscriptionByStripeId(subscriptionId);
@@ -439,7 +439,7 @@ async function handlePaymentFailedWithMCP(
     subscriptionStatus: 'past_due',
   });
 
-  console.log(`[Webhook + MCP] Payment failed and grace period activated for ${userInfo.email}`);
+  // DEBUG: `[Webhook + MCP] Payment failed and grace period activated for ${userInfo.email}`
 }
 
 // ============================================================================

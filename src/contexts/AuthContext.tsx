@@ -165,7 +165,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Safety timeout to prevent infinite loading - this is the key fix
     const timeoutId = setTimeout(() => {
       if (!hasCompleted) {
-        console.warn('Auth initialization timed out after', AUTH_TIMEOUT_MS, 'ms');
+        // WARN: 'Auth initialization timed out after', AUTH_TIMEOUT_MS, 'ms'
         completeInitialization();
       }
     }, AUTH_TIMEOUT_MS);
@@ -320,10 +320,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Profile creation error is not critical - trigger should have created it
         if (profileError) {
-          console.warn('Profile creation fallback warning:', profileError);
+          // WARN: 'Profile creation fallback warning:', profileError
         }
       } catch (profileErr) {
-        console.warn('Profile creation fallback error:', profileErr);
+        // WARN: 'Profile creation fallback error:', profileErr
       }
 
       return { error: null };

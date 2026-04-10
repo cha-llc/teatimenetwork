@@ -7,83 +7,101 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
+    /* Light Mode - Tea Time Network Brand Colors */
+    /* Navy: #001a33, Gold: #D4AF37, Teal: #2D6A4F, Crimson: #A0222B, Violet: #6B3E8D */
+    
+    --background: 210 50% 96%;
+    --foreground: 220 30% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 30% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 30% 8%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Navy (#001a33) - Deep blue-black */
+    --primary: 220 89% 10%;
+    --primary-foreground: 44 91% 85%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: Gold (#D4AF37) - Bright gold accent */
+    --secondary: 44 91% 55%;
+    --secondary-foreground: 220 89% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted: Teal (#2D6A4F) - Forest green */
+    --muted: 152 41% 35%;
+    --muted-foreground: 220 30% 95%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: Violet (#6B3E8D) - Purple accent */
+    --accent: 270 38% 43%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive: Crimson (#A0222B) - Deep red */
+    --destructive: 359 65% 42%;
+    --destructive-foreground: 210 50% 96%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --border: 220 30% 88%;
+    --input: 210 50% 96%;
+    --ring: 44 91% 55%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 220 23% 95%;
-    --sidebar-foreground: 215 25% 27%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 90%;
-    --sidebar-accent-foreground: 215 25% 27%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 221 83% 53%;
+    /* Sidebar: Navy background with Gold accents */
+    --sidebar-background: 220 89% 10%;
+    --sidebar-foreground: 44 91% 85%;
+    --sidebar-primary: 44 91% 55%;
+    --sidebar-primary-foreground: 220 89% 10%;
+    --sidebar-accent: 152 41% 35%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 89% 20%;
+    --sidebar-ring: 44 91% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark Mode - Tea Time Network Brand Colors */
+    /* Navy: #001a33, Gold: #D4AF37, Teal: #2D6A4F, Crimson: #A0222B, Violet: #6B3E8D */
+    
+    --background: 220 89% 10%;
+    --foreground: 44 91% 85%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 70% 15%;
+    --card-foreground: 44 91% 85%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 70% 15%;
+    --popover-foreground: 44 91% 85%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary: Navy (#001a33) - Deep blue-black */
+    --primary: 44 91% 55%;
+    --primary-foreground: 220 89% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary: Teal (#2D6A4F) - Forest green */
+    --secondary: 152 41% 35%;
+    --secondary-foreground: 44 91% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Muted: Navy variations */
+    --muted: 220 70% 25%;
+    --muted-foreground: 44 91% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent: Violet (#6B3E8D) - Purple accent */
+    --accent: 270 38% 60%;
+    --accent-foreground: 220 89% 10%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive: Crimson (#A0222B) - Deep red */
+    --destructive: 359 65% 52%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 220 70% 25%;
+    --input: 220 70% 20%;
+    --ring: 44 91% 55%;
 
-    --sidebar-background: 215 28% 17%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217.2 91.2% 59.8%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 27%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 27%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar: Navy with Gold accents */
+    --sidebar-background: 220 89% 10%;
+    --sidebar-foreground: 44 91% 85%;
+    --sidebar-primary: 44 91% 55%;
+    --sidebar-primary-foreground: 220 89% 10%;
+    --sidebar-accent: 152 41% 35%;
+    --sidebar-accent-foreground: 44 91% 85%;
+    --sidebar-border: 220 70% 25%;
+    --sidebar-ring: 44 91% 55%;
   }
 }
 

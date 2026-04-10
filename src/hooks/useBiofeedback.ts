@@ -310,7 +310,7 @@ export function useBiofeedback() {
           device.battery_level = batteryValue.getUint8(0);
         }
       } catch (e) {
-        console.log('Battery service not available');
+        // DEBUG: 'Battery service not available'
       }
 
       if (user && !isDemo) {
