@@ -6,20 +6,6 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "outputDirectory": "dist",
-  "env": {
-    "VITE_SUPABASE_URL": {
-      "description": "Supabase project URL",
-      "required": true
-    },
-    "VITE_SUPABASE_ANON_KEY": {
-      "description": "Supabase anonymous key",
-      "required": true
-    },
-    "VITE_STRIPE_PUBLISHABLE_KEY": {
-      "description": "Stripe publishable key",
-      "required": true
-    }
-  },
   "rewrites": [
     {
       "source": "/(.*)",
