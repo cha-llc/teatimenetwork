@@ -6,7 +6,6 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "outputDirectory": "dist",
-  "publicSource": "./public",
   "env": {
     "VITE_SUPABASE_URL": {
       "description": "Supabase project URL",
