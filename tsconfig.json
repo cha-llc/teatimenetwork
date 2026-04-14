@@ -15,12 +15,29 @@
     "jsx": "react-native"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "index.js"
+    "index.js",
+    "src/App.tsx",
+    "src/contexts/AuthContext.tsx",
+    "src/lib/supabase.ts",
+    "src/lib/theme.ts",
+    "src/navigation/**/*.ts",
+    "src/navigation/**/*.tsx",
+    "src/screens/**/*.ts",
+    "src/screens/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
-    "babel.config.js"
+    "babel.config.js",
+    "src/components",
+    "src/pages",
+    "src/hooks",
+    "src/services",
+    "src/integrations",
+    "src/stores",
+    "src/test",
+    "src/contexts/AppContext.tsx",
+    "src/contexts/LanguageContext.tsx",
+    "src/main.tsx",
+    "src/api"
   ]
 }
