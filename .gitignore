@@ -1,41 +1,46 @@
-# Logs
-logs
-*.log
+# Expo
+.expo/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Node
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-
-# Environment files
+# Env files (never commit secrets)
 .env
 .env.local
 .env.*.local
 
+# macOS
+.DS_Store
+*.sw?
+
+# Google service account (contains credentials)
+google-service-account.json
+
+# Build outputs
+android/
+ios/
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
 # Testing
 coverage/
 
-# Build outputs
-build/
-.vercel
-.netlify
+# Logs
+*.log
 
 # Supabase
 supabase/.temp/

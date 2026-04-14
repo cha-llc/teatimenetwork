@@ -1,70 +1,45 @@
+import 'react-native-url-polyfill/auto';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 
 /**
- * SUPABASE CLIENT INITIALIZATION
- * 
- * CRITICAL: These values MUST come from environment variables
- * Add to .env.local (development) or Vercel environment variables (production):
- * 
- * VITE_SUPABASE_URL=https://[project].supabase.co
- * VITE_SUPABASE_ANON_KEY=[your-anon-key]
+ * SUPABASE CLIENT - React Native
+ *
+ * Environment variables sourced from app.json extra or .env via expo-constants.
+ * For local dev, create a .env file with:
+ *   EXPO_PUBLIC_SUPABASE_URL=https://[project].supabase.co
+ *   EXPO_PUBLIC_SUPABASE_ANON_KEY=[your-anon-key]
  */
 
-// Get credentials from environment - try multiple sources
-let supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-let supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl =
+  process.env.EXPO_PUBLIC_SUPABASE_URL || '';
+const supabaseKey =
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
 
-// Configuration validation
-const isConfigured = !!(supabaseUrl && supabaseKey);
+export const isConfigured = !!(supabaseUrl && supabaseKey);
 
-// Validate configuration with helpful error message
-if (!supabaseUrl || !supabaseKey) {
-  if (typeof window !== 'undefined') {
-    console.error(
-      '❌ SUPABASE CONFIGURATION ERROR\n' +
-      'Missing environment variables: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY\n' +
-      'For Vercel: https://vercel.com/dashboard/teatimenetwork → Settings → Environment Variables'
-    );
-  }
-}
-
-// Create client with proper error handling
-let supabase;
-
-if (supabaseUrl && supabaseKey) {
-  // Credentials are available - create real client
-  supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-      flowType: 'pkce', // PKCE flow for better security
-    },
-    global: {
-      headers: {
-        'X-Client-Info': 'teatimenetwork-web',
-      },
-    },
-  });
-} else {
-  // Credentials missing - create dummy client to prevent crashes
-  supabase = createClient(
-    supabaseUrl || 'https://dummy.supabase.co',
-    supabaseKey || 'dummy-key',
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-      },
-      global: {
-        headers: {
-          'X-Client-Info': 'teatimenetwork-web-unconfigured',
-        },
-      },
-    }
+if (!isConfigured) {
+  console.warn(
+    '⚠️ Supabase not configured.\n' +
+    'Create a .env file with EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY'
   );
 }
 
-export { supabase, isConfigured };
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder.supabase.co',
+  supabaseKey || 'placeholder-key',
+  {
+    auth: {
+      storage: AsyncStorage,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false, // Not applicable for React Native
+      flowType: 'pkce',
+    },
+    global: {
+      headers: {
+        'X-Client-Info': 'teatimenetwork-mobile',
+      },
+    },
+  }
+);
