@@ -10,17 +10,32 @@
       },
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "placeholder",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "placeholder",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "placeholder"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "placeholder",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "placeholder",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "placeholder"
       }
     },
     "production": {
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "placeholder",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "placeholder",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "placeholder"
       }
     }
   },
